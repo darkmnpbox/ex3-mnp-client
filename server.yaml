@@ -1,0 +1,27 @@
+version: '3'
+
+services: 
+
+  microservice:
+    container_name: microservice
+    hostname: microservice
+    image: darkmnpbox/ex3-api-microservice:1.0
+    environment:
+      - PORT=4001
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5432
+      - DB_USERNAME=test
+      - DB_PASSWORD=Niyas123
+      - DB_DATABASE=test_typeorm
+      - BROKER_URL=amqp://127.0.0.1:5672
+    network_mode: host
+
+  gateway:
+    container_name: gateway
+    hostname: gateway
+    image: darkmnpbox/ex3-api-gateway:1.0
+    environment:
+      - PORT=4002
+      - BROKER_URL=amqp://127.0.0.1:5672
+      - MICROSERVICE_BASE_URL=http://localhost:4001
+    network_mode: host
